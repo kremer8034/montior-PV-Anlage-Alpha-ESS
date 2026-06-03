@@ -1,0 +1,185 @@
+/* Layout ist für Querformat-Infomonitore (z. B. 1920×1080) optimiert
+   und skaliert per clamp()/vw, damit es aus mehreren Metern lesbar ist. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0d2818;
+  --bg-accent: #13351f;
+  --primary: #34d399;
+  --sun: #fbbf24;
+  --load: #60a5fa;
+  --total: #a78bfa;
+  --text: #ffffff;
+  --text-muted: #9fb8a8;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.dashboard {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5vw 3vw;
+  gap: 2vh;
+}
+
+/* Kopfzeile */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+.logo {
+  height: 9vh;
+  max-height: 110px;
+  width: auto;
+}
+.logo:not([src]),
+.logo[src=""] {
+  display: none;
+}
+.titles h1 {
+  font-size: clamp(28px, 3.2vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+}
+.titles p {
+  font-size: clamp(16px, 1.5vw, 30px);
+  color: var(--text-muted);
+  margin-top: 0.4vh;
+}
+
+/* Haupt-Kacheln */
+.tiles {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2vw;
+  min-height: 0;
+}
+.tile {
+  position: relative;
+  background: var(--bg-accent);
+  border-radius: 24px;
+  padding: 3vh 2.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 8px solid var(--primary);
+  overflow: hidden;
+}
+.tile--sun {
+  border-top-color: var(--sun);
+}
+.tile--load {
+  border-top-color: var(--load);
+}
+.tile--total {
+  border-top-color: var(--total);
+}
+.tile__label {
+  font-size: clamp(18px, 1.8vw, 36px);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.tile__value {
+  font-size: clamp(56px, 8vw, 170px);
+  font-weight: 800;
+  line-height: 1;
+  margin-top: 1vh;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3ch;
+}
+.tile--sun .tile__value {
+  color: var(--sun);
+}
+.tile--load .tile__value {
+  color: var(--load);
+}
+.tile--total .tile__value {
+  color: var(--total);
+}
+.tile__unit {
+  font-size: clamp(20px, 2vw, 44px);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.tile__icon {
+  position: absolute;
+  right: 2vw;
+  bottom: 1.5vh;
+  font-size: clamp(40px, 5vw, 110px);
+  opacity: 0.18;
+}
+
+/* Untere Kacheln */
+.subtiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2vw;
+}
+.subtile {
+  background: var(--bg-accent);
+  border-radius: 18px;
+  padding: 2vh 2vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.subtile__label {
+  font-size: clamp(16px, 1.6vw, 32px);
+  color: var(--text-muted);
+}
+.subtile__value {
+  font-size: clamp(26px, 3vw, 56px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.subtile--co2 .subtile__value {
+  color: var(--primary);
+}
+
+/* Statuszeile */
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(13px, 1.1vw, 20px);
+  color: var(--text-muted);
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.6vw;
+}
+.dot {
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 50%;
+  background: #6b7280;
+  display: inline-block;
+}
+.dot--ok {
+  background: var(--primary);
+  box-shadow: 0 0 12px var(--primary);
+}
+.dot--warn {
+  background: var(--sun);
+}
+.dot--err {
+  background: #ef4444;
+}

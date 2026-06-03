@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PV-Monitor</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="config.js"></script>
+  </head>
+  <body>
+    <main class="dashboard">
+      <header class="topbar">
+        <img id="logo" class="logo" alt="Logo" />
+        <div class="titles">
+          <h1 id="headline"></h1>
+          <p id="subline"></p>
+        </div>
+      </header>
+
+      <section class="tiles">
+        <div class="tile tile--sun">
+          <div class="tile__label">Aktuelle PV-Leistung</div>
+          <div class="tile__value"><span id="pvPower">–</span><span class="tile__unit">kW</span></div>
+          <div class="tile__icon">☀️</div>
+        </div>
+
+        <div class="tile tile--load">
+          <div class="tile__label">Aktueller Verbrauch</div>
+          <div class="tile__value"><span id="loadPower">–</span><span class="tile__unit">kW</span></div>
+          <div class="tile__icon">🔌</div>
+        </div>
+
+        <div class="tile tile--total">
+          <div class="tile__label">Gesamt erzeugt</div>
+          <div class="tile__value"><span id="energyTotal">–</span><span class="tile__unit">kWh</span></div>
+          <div class="tile__icon">⚡</div>
+        </div>
+      </section>
+
+      <section class="subtiles">
+        <div class="subtile">
+          <span class="subtile__label">Heute erzeugt</span>
+          <span class="subtile__value"><span id="energyToday">–</span> kWh</span>
+        </div>
+        <div class="subtile subtile--co2">
+          <span class="subtile__label">Eingespartes CO₂ (gesamt)</span>
+          <span class="subtile__value"><span id="co2">–</span> t</span>
+        </div>
+      </section>
+
+      <footer class="statusbar">
+        <span id="company"></span>
+        <span class="status">
+          <span id="dot" class="dot"></span>
+          <span id="status">Verbinde …</span>
+        </span>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

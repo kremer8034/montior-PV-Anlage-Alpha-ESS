@@ -1,0 +1,14 @@
+{
+  "name": "pv-monitor-alphaess",
+  "version": "1.0.0",
+  "description": "Live-Infomonitor für PV-Anlagen (Alpha ESS) – PV-Leistung, Verbrauch, Gesamterzeugung & CO2.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
