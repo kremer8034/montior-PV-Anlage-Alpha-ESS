@@ -32,6 +32,31 @@
   }
   const nf = (d) => new Intl.NumberFormat("de-DE", { maximumFractionDigits: d, minimumFractionDigits: d });
 
+  // Skaliert kWh automatisch auf kWh/MWh/GWh, damit große Summen nicht
+  // aus der Kachel laufen.
+  function scaleEnergy(kwh) {
+    const v = Number(kwh) || 0;
+    if (v >= 1_000_000) return { value: v / 1_000_000, unit: "GWh", decimals: 2 };
+    if (v >= 1_000) return { value: v / 1_000, unit: "MWh", decimals: 1 };
+    return { value: v, unit: "kWh", decimals: 0 };
+  }
+
+  // Sicherheitsnetz: verkleinert den Wert automatisch, falls er (mit Einheit)
+  // breiter als die Kachel würde – so wird nie etwas abgeschnitten.
+  function fitValue(el) {
+    if (!el) return;
+    el.style.fontSize = "";
+    let size = parseFloat(getComputedStyle(el).fontSize);
+    let guard = 0;
+    while (el.scrollWidth > el.clientWidth && size > 24 && guard++ < 40) {
+      size *= 0.95;
+      el.style.fontSize = size + "px";
+    }
+  }
+  function fitAll() {
+    document.querySelectorAll(".tile__value").forEach(fitValue);
+  }
+
   function setStatus(kind, text) {
     const dot = document.getElementById("dot");
     dot.className = "dot " + (kind ? "dot--" + kind : "");
@@ -65,9 +90,16 @@
 
       animate("pvPower", data.pvPowerKw, 1);
       animate("loadPower", data.loadPowerKw, 1);
-      animate("energyTotal", data.energyTotalKwh, 0);
+
+      const total = scaleEnergy(data.energyTotalKwh);
+      setText("energyTotalUnit", total.unit);
+      animate("energyTotal", total.value, total.decimals);
+
       animate("energyToday", data.energyTodayKwh, 1);
       animate("co2", data.co2SavedTons, 1);
+
+      // nach Ende der Zähler-Animation prüfen, ob alles in die Kacheln passt
+      setTimeout(fitAll, 850);
 
       const t = new Date(data.updatedAt).toLocaleTimeString("de-DE", {
         hour: "2-digit",
@@ -88,4 +120,5 @@
 
   update();
   setInterval(update, refreshMs);
+  window.addEventListener("resize", fitAll);
 })();

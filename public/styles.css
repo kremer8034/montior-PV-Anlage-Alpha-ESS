@@ -1,5 +1,6 @@
-/* Layout ist für Querformat-Infomonitore (z. B. 1920×1080) optimiert
-   und skaliert per clamp()/vw, damit es aus mehreren Metern lesbar ist. */
+/* Layout für Querformat-Infomonitore (z. B. 1920×1080), skaliert per
+   clamp()/vw, damit es aus mehreren Metern lesbar ist.
+   Farbwelt nach DRK-Styleguide (helles Theme, weiß/rot/blau). */
 * {
   margin: 0;
   padding: 0;
@@ -7,14 +8,14 @@
 }
 
 :root {
-  --bg: #0d2818;
-  --bg-accent: #13351f;
-  --primary: #34d399;
-  --sun: #fbbf24;
-  --load: #60a5fa;
-  --total: #a78bfa;
-  --text: #ffffff;
-  --text-muted: #9fb8a8;
+  --bg: #f2f2f2;
+  --bg-accent: #ffffff;
+  --primary: #e60005; /* DRK-Rot */
+  --sun: #e60005;
+  --load: #008ccd; /* DRK-Mittelblau */
+  --total: #002d55; /* DRK-Dunkelblau */
+  --text: #1a1a1a;
+  --text-muted: #6f6f6e;
 }
 
 html,
@@ -39,11 +40,11 @@ body {
 .topbar {
   display: flex;
   align-items: center;
-  gap: 2vw;
+  gap: 2.5vw;
 }
 .logo {
-  height: 9vh;
-  max-height: 110px;
+  height: 13vh;
+  max-height: 150px;
   width: auto;
 }
 .logo:not([src]),
@@ -54,6 +55,7 @@ body {
   font-size: clamp(28px, 3.2vw, 64px);
   font-weight: 800;
   line-height: 1.05;
+  color: var(--total);
 }
 .titles p {
   font-size: clamp(16px, 1.5vw, 30px);
@@ -72,12 +74,14 @@ body {
 .tile {
   position: relative;
   background: var(--bg-accent);
-  border-radius: 24px;
+  border-radius: 20px;
   padding: 3vh 2.5vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 0; /* erlaubt Schrumpfen statt Überlauf */
   border-top: 8px solid var(--primary);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 .tile--sun {
@@ -95,7 +99,7 @@ body {
   font-weight: 600;
 }
 .tile__value {
-  font-size: clamp(56px, 8vw, 170px);
+  font-size: clamp(44px, 6vw, 128px);
   font-weight: 800;
   line-height: 1;
   margin-top: 1vh;
@@ -103,6 +107,8 @@ body {
   display: flex;
   align-items: baseline;
   gap: 0.3ch;
+  min-width: 0;
+  white-space: nowrap;
 }
 .tile--sun .tile__value {
   color: var(--sun);
@@ -123,7 +129,7 @@ body {
   right: 2vw;
   bottom: 1.5vh;
   font-size: clamp(40px, 5vw, 110px);
-  opacity: 0.18;
+  opacity: 0.1;
 }
 
 /* Untere Kacheln */
@@ -134,11 +140,12 @@ body {
 }
 .subtile {
   background: var(--bg-accent);
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 2vh 2vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 .subtile__label {
   font-size: clamp(16px, 1.6vw, 32px);
@@ -148,6 +155,7 @@ body {
   font-size: clamp(26px, 3vw, 56px);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .subtile--co2 .subtile__value {
   color: var(--primary);
@@ -170,16 +178,16 @@ body {
   width: 0.9em;
   height: 0.9em;
   border-radius: 50%;
-  background: #6b7280;
+  background: #b8b8b8;
   display: inline-block;
 }
 .dot--ok {
-  background: var(--primary);
-  box-shadow: 0 0 12px var(--primary);
+  background: #008ccd; /* DRK-Mittelblau = verbunden */
+  box-shadow: 0 0 10px rgba(0, 140, 205, 0.6);
 }
 .dot--warn {
-  background: var(--sun);
+  background: #e46450; /* DRK-Softrot */
 }
 .dot--err {
-  background: #ef4444;
+  background: #a51e0f; /* DRK-Dunkelrot */
 }

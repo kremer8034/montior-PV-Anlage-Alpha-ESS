@@ -1,16 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="110" viewBox="0 0 320 110" role="img" aria-label="Logo-Platzhalter">
-  <!-- Platzhalter-Logo. Ersetze diese Datei durch euer Firmenlogo (logo.svg oder .png). -->
-  <circle cx="55" cy="55" r="26" fill="#fbbf24"/>
-  <g stroke="#fbbf24" stroke-width="5" stroke-linecap="round">
-    <line x1="55" y1="8" x2="55" y2="22"/>
-    <line x1="55" y1="88" x2="55" y2="102"/>
-    <line x1="8" y1="55" x2="22" y2="55"/>
-    <line x1="88" y1="55" x2="102" y2="55"/>
-    <line x1="22" y1="22" x2="32" y2="32"/>
-    <line x1="78" y1="78" x2="88" y2="88"/>
-    <line x1="88" y1="22" x2="78" y2="32"/>
-    <line x1="32" y1="78" x2="22" y2="88"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="250" viewBox="0 0 620 250" role="img" aria-label="Bayerisches Rotes Kreuz – Kreisverband Miltenberg-Obernburg">
+  <!--
+    Nachbildung des BRK-Logos als Vektor (DRK-Rot #E60005).
+    Bei Bedarf durch die offizielle Logo-Datei ersetzen (gleichen Dateinamen
+    public/logo.svg verwenden oder logoUrl in config.js anpassen).
+  -->
+  <g fill="#e60005">
+    <rect x="66" y="12" width="58" height="58"/>
+    <rect x="8" y="70" width="58" height="58"/>
+    <rect x="66" y="70" width="58" height="58"/>
+    <rect x="124" y="70" width="58" height="58"/>
+    <rect x="66" y="128" width="58" height="58"/>
   </g>
-  <text x="120" y="50" font-family="Segoe UI, sans-serif" font-size="30" font-weight="800" fill="#ffffff">IHR LOGO</text>
-  <text x="120" y="82" font-family="Segoe UI, sans-serif" font-size="18" fill="#9fb8a8">Platzhalter ersetzen</text>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="800" fill="#000000">
+    <text x="205" y="66" font-size="60">Bayerisches</text>
+    <text x="205" y="126" font-size="60">Rotes</text>
+    <text x="205" y="186" font-size="60">Kreuz</text>
+  </g>
+  <text x="9" y="234" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="27" fill="#6f6f6e">Kreisverband Miltenberg-Obernburg</text>
 </svg>
