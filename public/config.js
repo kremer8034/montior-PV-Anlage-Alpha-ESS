@@ -20,6 +20,7 @@ window.DASHBOARD_CONFIG = {
     sun: "#e60005", // PV-Erzeugung -> DRK-Rot
     load: "#008ccd", // Verbrauch -> DRK-Mittelblau
     total: "#002d55", // Gesamterzeugung -> DRK-Dunkelblau
+    batt: "#3aaa35", // Batterie-Ladestand -> Grün
     text: "#1a1a1a",
     textMuted: "#6f6f6e",
   },

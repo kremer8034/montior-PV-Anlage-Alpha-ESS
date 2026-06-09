@@ -12,6 +12,7 @@
     "--sun": c.sun,
     "--load": c.load,
     "--total": c.total,
+    "--batt": c.batt,
     "--text": c.text,
     "--text-muted": c.textMuted,
   };
@@ -94,6 +95,8 @@
       const today = scaleEnergy(data.energyTodayKwh);
       setText("energyTodayUnit", today.unit);
       animate("energyToday", today.value, today.decimals);
+
+      animate("soc", data.socAvg, 0);
 
       const total = scaleEnergy(data.energyTotalKwh);
       setText("energyTotalUnit", total.unit);

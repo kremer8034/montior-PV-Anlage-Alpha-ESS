@@ -14,6 +14,7 @@
   --sun: #e60005;
   --load: #008ccd; /* DRK-Mittelblau */
   --total: #002d55; /* DRK-Dunkelblau */
+  --batt: #3aaa35; /* Batterie-Ladestand -> Grün */
   --text: #1a1a1a;
   --text-muted: #6f6f6e;
 }
@@ -67,7 +68,7 @@ body {
 .tiles {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 2vw;
   min-height: 0;
 }
@@ -92,6 +93,9 @@ body {
 }
 .tile--total {
   border-top-color: var(--total);
+}
+.tile--batt {
+  border-top-color: var(--batt);
 }
 .tile__label {
   font-size: clamp(18px, 1.8vw, 36px);
@@ -118,6 +122,9 @@ body {
 }
 .tile--total .tile__value {
   color: var(--total);
+}
+.tile--batt .tile__value {
+  color: var(--batt);
 }
 .tile__unit {
   font-size: clamp(20px, 2vw, 44px);
