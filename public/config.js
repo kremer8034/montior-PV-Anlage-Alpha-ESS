@@ -6,7 +6,7 @@
 window.DASHBOARD_CONFIG = {
   // Kopfzeile
   companyName: "BRK Kreisverband Miltenberg-Obernburg",
-  headline: "Unsere Photovoltaik-Anlagen – live",
+  headline: "Unsere Photovoltaik-Anlagen am Standort Obernburg – live",
   subline: "Wir produzieren sauberen Strom – ein Beitrag zur Nachhaltigkeit.",
 
   // Logo: liegt unter /public/logo.svg (durch offizielle Datei ersetzbar)
