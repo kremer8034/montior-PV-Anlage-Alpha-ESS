@@ -91,11 +91,14 @@
       animate("pvPower", data.pvPowerKw, 1);
       animate("loadPower", data.loadPowerKw, 1);
 
+      const today = scaleEnergy(data.energyTodayKwh);
+      setText("energyTodayUnit", today.unit);
+      animate("energyToday", today.value, today.decimals);
+
       const total = scaleEnergy(data.energyTotalKwh);
       setText("energyTotalUnit", total.unit);
       animate("energyTotal", total.value, total.decimals);
 
-      animate("energyToday", data.energyTodayKwh, 1);
       animate("co2", data.co2SavedTons, 1);
 
       // nach Ende der Zähler-Animation prüfen, ob alles in die Kacheln passt
