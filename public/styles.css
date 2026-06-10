@@ -135,8 +135,27 @@ body {
   position: absolute;
   right: 2vw;
   bottom: 1.5vh;
-  font-size: clamp(40px, 5vw, 110px);
-  opacity: 0.1;
+  width: clamp(40px, 5vw, 110px);
+  height: clamp(40px, 5vw, 110px);
+  opacity: 0.14;
+  color: var(--total);
+}
+.tile__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.tile--sun .tile__icon {
+  color: var(--sun);
+}
+.tile--load .tile__icon {
+  color: var(--load);
+}
+.tile--total .tile__icon {
+  color: var(--total);
+}
+.tile--batt .tile__icon {
+  color: var(--batt);
 }
 
 /* Untere Kacheln */
