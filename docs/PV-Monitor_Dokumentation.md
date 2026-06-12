@@ -3,13 +3,15 @@
 ## Technische Dokumentation & Code-Beschreibung
 
 *BRK Kreisverband Miltenberg-Obernburg · Standort Obernburg*  
-*Stand: 09.06.2026*  
+*Stand: 12.06.2026*  
 
 ## 1. Überblick
 
 Der PV-Infomonitor ist ein Live-Dashboard, das die Daten von fünf Photovoltaik-/Speicheranlagen (Alpha ESS) zusammenfasst und auf einem Info-Monitor (über Yodeck) im Querformat anzeigt. Angezeigt werden die aktuelle PV-Leistung, der aktuelle Verbrauch, die heute erzeugte Energie, der durchschnittliche Batterie-Ladestand sowie – als Gesamtwerte – die insgesamt erzeugte Energie und das eingesparte CO₂.
 
 Die Messwerte stammen aus der Alpha-ESS-Cloud (Open API). Ein kleiner serverseitiger Dienst auf Vercel ruft die API signiert ab, summiert alle Anlagen und stellt das Ergebnis als JSON bereit. Die Zugangsdaten bleiben dabei ausschließlich auf dem Server – der Browser bzw. der Yodeck-Player sieht nur die fertig aufbereiteten Zahlen.
+
+Zusätzlich wird eine sechste, reine Einspeise-Anlage (Fronius Verto 30.0, ebenfalls am Standort Obernburg) als rechnerische Schätzung mitgezählt – siehe Abschnitt „Virtuelle Schätz-Anlage (Fronius)“.
 
 
 ### 1.1 Datenfluss (vereinfacht)
@@ -105,6 +107,22 @@ Für jede Seriennummer werden parallel Echtzeit- und Summenwerte geladen. Eine a
 Leistungswerte kommen von der API in Watt und werden in Kilowatt (kW) umgerechnet; Energiewerte sind in kWh. Das zurückgegebene Objekt enthält zusätzlich updatedAt (Zeitstempel), systemsTotal/systemsOnline (Status) und ein systems-Array mit den Einzelwerten jeder Anlage.
 
 
+#### Virtuelle Schätz-Anlage (Fronius)
+
+Am Standort Obernburg gibt es eine weitere PV-Anlage mit einem Fronius-Wechselrichter (Verto 30.0). Diese ist eine reine Einspeise-Anlage (kein Eigenverbrauch, kein Batteriespeicher) und liegt auf demselben Flachdach wie die Alpha-ESS-Anlage „RD“ und ist gleich groß (kWp).
+
+Eine direkte Anbindung wäre nur über die kostenpflichtige Fronius Solar.web Query API (Cloud) oder eine lokale Bridge mit Zusatz-Hardware möglich. Um Kosten und Hardware zu vermeiden, wird die Fronius-Erzeugung stattdessen rechnerisch geschätzt: Es wird die Erzeugung der RD-Anlage (RD Host + RD Follower) gespiegelt – aufgrund gleicher Größe, Ausrichtung und gleichem Dach ein guter Näherungswert.
+
+Die Schätz-Anlage steuert ausschließlich Erzeugungswerte bei:
+
+- PV-Leistung (P_PV), Ertrag heute (E_Day) und Ertrag gesamt (E_Total) werden aus den RD-Anlagen übernommen und zur Gesamtsumme addiert.
+- KEIN Verbrauch und KEIN Batterie-Ladestand – der SOC-Mittelwert bleibt dadurch unverfälscht.
+- Sind die RD-Anlagen offline, wird auch die Schätzung als offline geführt (es fehlt dann die Datenbasis).
+Steuerung über Environment Variables: FRONIUS_PROXY_SN_LIST legt die zu spiegelnden Seriennummern fest (Standard: die beiden RD-Anlagen; Wert „off“ deaktiviert die Schätzung). FRONIUS_PROXY_LABEL bestimmt die Bezeichnung im Daten-JSON.
+
+Hinweis zur Genauigkeit: PV-Leistung und Tagesertrag sind gut abgebildet. Der Lebensdauer-Gesamtertrag ist die unsicherste Größe, da er den Gesamtwert der RD-Anlage spiegelt – bei abweichendem Inbetriebnahme-Datum der Fronius-Anlage weicht dieser Wert ab.
+
+
 ### 3.2 api/data.js – Serverless-Endpunkt /api/data
 
 Dies ist die Schnittstelle, die das Dashboard im Browser aufruft. Sie übernimmt drei Aufgaben:
@@ -183,6 +201,8 @@ Die Zugangsdaten werden ausschließlich in Vercel unter Settings → Environment
 | **CACHE_TTL_SECONDS** | Cache-Dauer in Sekunden (Standard 30). |
 | **CO2_FACTOR_KG_PER_KWH** | CO₂-Faktor (Standard 0,4 kg/kWh, dt. Strommix). |
 | **DEMO_MODE** | „true“ erzwingt Demo, „false“ schaltet ihn ab. Ohne AppID automatisch Demo. |
+| **FRONIUS_PROXY_SN_LIST** | Seriennummern für die Fronius-Schätzung (Standard: RD Host + RD Follower). „off“/„none“ deaktiviert die Schätzung. |
+| **FRONIUS_PROXY_LABEL** | Bezeichnung der Schätz-Anlage im Daten-JSON (Standard „Fronius Obernburg (geschätzt)“). |
 
 Wichtig: Änderungen an Environment Variables greifen erst nach einem neuen Deployment (Redeploy).
 
@@ -232,4 +252,6 @@ Das Projekt ist mit GitHub verbunden. Jeder Push auf den Branch main löst autom
 | **Aggregation** | Zusammenfassen mehrerer Anlagen zu Gesamtwerten. |
 | **Demo-Modus** | Anzeige mit Beispielwerten, falls keine Zugangsdaten vorhanden sind. |
 | **CO₂-Faktor** | Umrechnungsfaktor von erzeugter Energie zu vermiedenem CO₂. |
+| **Schätz-Anlage (Proxy)** | Rechnerisch geschätzte Anlage (Fronius), die die Erzeugung einer baugleichen Anlage spiegelt, statt eigene Messwerte abzurufen. |
+| **Volleinspeisung** | PV-Anlage, die den gesamten Strom ins Netz einspeist (kein Eigenverbrauch, kein Speicher). |
 
